@@ -80,7 +80,7 @@
       {#each spots as spot}
       <li>
         {spot.name}
-        <span class="buttons">
+        <span class="actions">
           <span class="up" on:click={up(spot)}>▲</span>
           <span class="down" on:click={down(spot)}>▼</span>
           <span class="remove" on:click={remove(spot)}>✖</span>

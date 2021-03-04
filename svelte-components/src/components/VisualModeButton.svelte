@@ -21,5 +21,5 @@
 </script>
 
 <button class="blackandwhite" on:click={switchMode} style='margin-left:auto'>
-  <Icon data={tint} scale="6"/>
+  <Icon data={tint} scale="4"/>
 </button>

@@ -12,5 +12,5 @@
 
 
 <button  on:click={openList} title="Liste des spots" style='margin-left:auto'>
- <Icon data={plusSquare} scale="6"/>
+ <Icon data={plusSquare} scale="4"/>
 </button>

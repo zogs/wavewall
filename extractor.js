@@ -14,16 +14,29 @@ exports.getSurfometer = async function(url) {
         $(this).attr('width','');
         $(this).attr('height','');
   });
-  // remove inlien width & height
+  // remove inline width & height
   $("*").each(function() {
     $(this).attr('style','');
   })
+  // get tides
+  let tides = getTidesFromEmbededJavascript($);
+
   let div = $('#Surfometer');
   div.attr('id', null);
   div.attr('onmousemove', null);
-  return div.html();
+  div.attr('data-tides', JSON.stringify(tides));
+  return $.html(div);
 
 }
+
+const getTidesFromEmbededJavascript = function($) {
+  let code = $.html();
+  let lines = code.match(/.*daysTides.+\n/g);
+  lines.pop();
+  eval(lines.join('')); // eval de var daysTides = [...]
+  return daysTides;
+}
+
 
 
 exports.getSpotsList = async function(provider = 'https://www.yadusurf.com') {
