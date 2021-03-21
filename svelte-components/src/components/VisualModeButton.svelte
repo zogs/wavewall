@@ -1,6 +1,6 @@
 <script>
     import Icon from 'svelte-awesome';
-    import { tint } from 'svelte-awesome/icons';
+    import { faYinYang } from '@fortawesome/free-solid-svg-icons';
 
     export let mode;
 
@@ -20,6 +20,6 @@
 
 </script>
 
-<button class="blackandwhite" on:click={switchMode} style='margin-left:auto'>
-  <Icon data={tint} scale="4"/>
+<button class="blackandwhite" on:click={switchMode}>
+  <Icon data={faYinYang} scale="3"/>
 </button>
