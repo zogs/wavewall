@@ -86,7 +86,7 @@ import { dataset_dev } from 'svelte/internal';
 <div class="surfometer" bind:this={surfometer}>
   {#if content == null }<div class="loader"><Loader></Loader></div>{/if}
   <div class="spotname">{ name }</div>
-  <div class="tide"><canvas bind:this={canvas} width=1000 height=100></canvas></div>
+  <!-- <div class="tide"><canvas bind:this={canvas} width=1000 height=100></canvas></div>-->
   <div class="container">
     {@html content }
   </div>
