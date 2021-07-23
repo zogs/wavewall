@@ -4,7 +4,8 @@
 	import VisualModeButton from './components/VisualModeButton.svelte';
 	import SpotsListButton from './components/SpotsListButton.svelte';
 	import ModalSpotsList from './components/ModalSpotsList.svelte';
-	 import { onMount } from 'svelte';
+  import Panel from './components/Panel.svelte';
+	import { onMount } from 'svelte';
 
 	let visual_mode = 'color';
 	let modal = null;
@@ -34,11 +35,11 @@
 </script>
 
 <main class:grayscale-mode={visual_mode == 'grayscale'}>
-	<div class="panel">
+	<Panel>
 		{#each spots as spot }
 			<Surfometer name={spot.name} url={spot.url} reload={reload}></Surfometer>
 		{/each}
-  </div>
+  </Panel>
 
   <div class="toolbar">
   	<SpotsListButton on:open-list={openList}></SpotsListButton>
@@ -51,5 +52,7 @@
 </main>
 
 <style>
-
+  :global(html) { height:100%;}
+  :global(body) { height:100%;}
+  main { height:100%; }
 </style>
