@@ -7,21 +7,22 @@
     export let spots;
 
 
-    let selectorOpened = false
-    let spots_availables = []
-    let spots_searched = []
-    let search = ''
+    let _selectorOpened = false
+    let _spots_availables = []
+    let _spots_searched = []
+    let _search = ''
     loadSpotsList();
 
     $: {
-      let searched = [];
-      spots_availables.map(region => { searched.push({ region: region.region, spots: region.spots.filter(s => s.name.toLowerCase().includes(search.toLowerCase()))})});
-      spots_searched = searched;
+      let list = [];
+      _spots_availables.map(region => { list.push({ region: region.region, spots: region.spots.filter(s => s.name.toLowerCase().includes(_search.toLowerCase()))})});
+      list = list.sort((a,b) => a.region > b.region ? 1 : -1);
+      list = list.map(region => { region.spots = region.spots.sort((a,b) => a.name > b.name ? 1 : -1); return region });
+      _spots_searched = list;
     }
 
     $: {
-      search = '';
-      console.log(selectorOpened)
+      _search = '';
     }
 
     function up(spot) {
@@ -50,7 +51,7 @@
         url: buildUrl(spot)
       })
       spots = spots;
-      selectorOpened = false;
+      _selectorOpened = false;
     }
 
     function buildUrl(spot) {
@@ -62,13 +63,13 @@
     }
 
     function openSelector() {
-      selectorOpened = true;
+      _selectorOpened = true;
     }
 
     async function loadSpotsList() {
       let res = await fetch('/spots');
       let json = await res.json();
-      spots_availables = json;
+      _spots_availables = json;
     }
 
 
@@ -95,13 +96,13 @@
   </div>
 </div>
 
-{#if selectorOpened && spots_availables }
+{#if _selectorOpened && _spots_availables }
 <div class="modal modal-spots-availables">
   <div class="modal-inner">
-    <h1>Choisir un spot</h1>
-    <input type="text" name="search" bind:value={search} placeholder="Rechercher un spot" autocomplete="off">
+    <h1>Trouve ton spot</h1>
+    <input type="text" name="search" bind:value={_search} placeholder="Rechercher un spot" autocomplete="off">
     <div class="list">
-    {#each spots_searched as region}
+    {#each _spots_searched as region}
     {#if region.spots.length > 0 }
     <strong>{ region.region }</strong>
     <ul>

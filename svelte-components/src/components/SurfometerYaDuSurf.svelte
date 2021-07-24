@@ -98,7 +98,7 @@
   :global(.SurfDayV3) { flex:1; position:relative; }
   :global(.SurfDayV3:first-child) { display:none; }
   :global(.SurfDayV3 > div:first-child) { display:none; height:20px; font-size:11px; white-space:nowrap; text-align:center; line-height:25px; color:rgba(255,255,255,0.4); text-transform:uppercase; }
-  :global(.SurfDayV3 > div:nth-child(2)) { position:absolute; bottom:5px; left:0; width:100%; z-index:1; font-size:12px; white-space:nowrap; text-align:center; display:flex; justify-content:center; align-items: center;}
+  :global(.SurfDayV3 > div:nth-child(2)) { position:absolute; bottom:15px; left:0; width:100%; z-index:1; font-size:12px; white-space:nowrap; text-align:center; display:flex; justify-content:center; align-items: center;}
   :global(.SurfDayV3 > div:nth-child(3)) { height:100%; }
   :global(.SurfDayV3 > div:nth-child(3) .NoBottomBorderForImage) { width: 100%; }
   :global(.SurfDayV3 > div:nth-child(3) .NoBottomBorderForImage img) { width: 100%; }
@@ -114,7 +114,7 @@
   :global(.sprite.sprite-etoiles-1-bis) { display:none; }
   :global(.sprite.sprite-etoiles-1-bis:before) { background:#3f0; }
   :global(.sprite.sprite-etoiles-1-bis:after) { display:none; }
-  :global(.sprite.sprite-etoiles-2-bis) { background:#3f0; transform:translateX(6px); }
+  :global(.sprite.sprite-etoiles-2-bis) { background:#3f0; transform:translateX(8px); }
   :global(.sprite.sprite-etoiles-2-bis:before) { background:#3f0; }
   :global(.sprite.sprite-etoiles-2-bis:after) { display:none; }
   :global(.sprite.sprite-etoiles-3-bis) { background:#3f0; }
