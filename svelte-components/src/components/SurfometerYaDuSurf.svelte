@@ -2,32 +2,28 @@
 
   import { onMount } from 'svelte';
   import Loader from './Loader.svelte';
-
+  import { createEventDispatcher } from 'svelte';
 
   export let name;
   export let url;
-  export let reload;
+  export let id;
 
   let content = null;
   let canvas = null;
   let surfometer = null;
+  const dispatch = createEventDispatcher();
 
   // on mount, fetch the image
   onMount(async() => {
     fetchImage();
   });
 
-  // on reload request, re-fetch the image
-  $: {
-    fetchImage(reload);
-  }
-
   async function fetchImage() {
     content = null;
     const res = await fetch('/fetch?url='+encodeURI(url));
     const html = await res.text();
     content = html;
-    //setTimeout(() => drawTide(), 100);
+    setTimeout(() => dispatch('loaded', id), 10);
   }
 
   function drawTide() {
@@ -83,7 +79,7 @@
 
 </script>
 
-<div class="surfometer" bind:this={surfometer}>
+<div class="surfometer" id={id} bind:this={surfometer}>
   {#if content == null }<div class="loader"><Loader></Loader></div>{/if}
   <div class="spotname"><span>{ name }</span></div>
   <!-- <div class="tide"><canvas bind:this={canvas} width=1000 height=100></canvas></div>-->
@@ -92,20 +88,20 @@
 
 <style global>
 
-  .surfometer { position:relative; width:50%; height:100%; margin-bottom:10px; flex: 1;}
-  .spotname { color:white; position:absolute; width:100%; height:100%; padding: 10px; display: flex; justify-content:flex-end; align-items: center; z-index:10; }
-  .spotname span { font-family:helvetica; font-family: 'Ranchers', cursive; font-size:26px; color:rgba(255,255,255,0.75); text-shadow:0 0 5px rgb(0 0 0); letter-spacing:2px; }
+  .surfometer { position:relative; width:50%;  margin-bottom:5px; flex: 1;}
+  .spotname { color:white; position:absolute; width:100%; height:100%; padding: 10px; display: flex; justify-content:flex-end; align-items: center; z-index:10; pointer-events: none; }
+  .spotname span { font-family:helvetica; font-family: 'Ranchers', cursive; font-size:26px; color:rgba(255,255,255,0.75); text-shadow:2px 2px 5px rgba(0,0,0,0.8); letter-spacing:2px; }
   div.tide { position:absolute; left:0; top:50%; width:100%; z-index:10;}
   div.tide canvas{ width:100%; }
   .loader { position:absolute; top:40%; left:50%; }
-  :global(.SurfometerV3) { display:flex; height:100%; flex-direction:row; justify-content:stretch; align-items: stretch; }
-  :global(.SurfDayV3) { flex:1; position:relative; height:100%; }
+  :global(.SurfometerV3) { display:flex; flex-direction:row; justify-content:stretch; align-items: stretch; }
+  :global(.SurfDayV3) { flex:1; position:relative; }
   :global(.SurfDayV3:first-child) { display:none; }
   :global(.SurfDayV3 > div:first-child) { display:none; height:20px; font-size:11px; white-space:nowrap; text-align:center; line-height:25px; color:rgba(255,255,255,0.4); text-transform:uppercase; }
   :global(.SurfDayV3 > div:nth-child(2)) { position:absolute; bottom:5px; left:0; width:100%; z-index:1; font-size:12px; white-space:nowrap; text-align:center; display:flex; justify-content:center; align-items: center;}
   :global(.SurfDayV3 > div:nth-child(3)) { height:100%; }
-  :global(.SurfDayV3 > div:nth-child(3) .NoBottomBorderForImage) { width: 100%; height: 100%; }
-  :global(.SurfDayV3 > div:nth-child(3) .NoBottomBorderForImage img) { width: 100%; height:100%; }
+  :global(.SurfDayV3 > div:nth-child(3) .NoBottomBorderForImage) { width: 100%; }
+  :global(.SurfDayV3 > div:nth-child(3) .NoBottomBorderForImage img) { width: 100%; }
 
 
 

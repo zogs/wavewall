@@ -1,6 +1,6 @@
 <script>
 
-	import Surfometer from './components/SurfometerYaDuSurf.svelte';
+
 	import VisualModeButton from './components/VisualModeButton.svelte';
 	import SpotsListButton from './components/SpotsListButton.svelte';
 	import ModalSpotsList from './components/ModalSpotsList.svelte';
@@ -9,18 +9,19 @@
 
 	let visual_mode = 'color';
 	let modal = null;
-	let reload = 0;
-
-	let spots = []
+	let _spots = []
+  let _init = false;
 
 	onMount(async () => {
 		// get spots from storage
-		spots = JSON.parse(window.localStorage.getItem('spots'));
-    console.log(spots)
-		if(!spots) {
-      spots = []
+		_spots = JSON.parse(window.localStorage.getItem('spots'));
+    console.log(_spots)
+		if(!_spots) {
+      _spots = []
 			modal = 'spots_list';
 		}
+
+    _init = true;
 	})
 
 	function openList() {
@@ -28,18 +29,14 @@
 	}
 	function closeList() {
 		modal = null;
-		reload++;
-		window.localStorage.setItem('spots', JSON.stringify(spots));
+		window.localStorage.setItem('spots', JSON.stringify(_spots));
 	}
 
 </script>
 
+{#if _init}
 <main class:grayscale-mode={visual_mode == 'grayscale'}>
-	<Panel>
-		{#each spots as spot }
-			<Surfometer name={spot.name} url={spot.url} reload={reload}></Surfometer>
-		{/each}
-  </Panel>
+	<Panel _spots={_spots} />
 
   <div class="toolbar">
   	<SpotsListButton on:open-list={openList}></SpotsListButton>
@@ -47,9 +44,10 @@
   </div>
 
   {#if modal == 'spots_list'}
-  <ModalSpotsList bind:spots={spots} on:close={closeList}></ModalSpotsList>
+  <ModalSpotsList bind:spots={_spots} on:close={closeList}></ModalSpotsList>
   {/if}
 </main>
+{/if}
 
 <style>
   :global(html) { height:100%;}
