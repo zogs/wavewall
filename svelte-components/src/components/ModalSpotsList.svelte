@@ -1,11 +1,7 @@
 <script>
+    import {spots, page, nbPages, nbPerPage, nbSpots, modal, visualMode} from '../stores/AppStore';
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
-
-
-
-    export let spots;
-
 
     let _selectorOpened = false
     let _spots_availables = []
@@ -26,32 +22,33 @@
     }
 
     function up(spot) {
-      let index = spots.indexOf(spot);
-      spots.splice(index,1)
-      spots.splice(index-1, 0, spot)
-      spots = spots;
+      let index = $spots.indexOf(spot);
+      $spots.splice(index,1)
+      $spots.splice(index-1, 0, spot)
+      $spots = $spots;
     }
 
     function down(spot) {
-      let index = spots.indexOf(spot);
-      spots.splice(index,1)
-      spots.splice(index+1, 0, spot)
-      spots = spots;
+      let index = $spots.indexOf(spot);
+      $spots.splice(index,1)
+      $spots.splice(index+1, 0, spot)
+      $spots = $spots;
     }
 
     function remove(spot) {
-      let index = spots.indexOf(spot);
-      spots.splice(index,1);
-      spots = spots;
+      let index = $spots.indexOf(spot);
+      $spots.splice(index,1);
+      $spots = $spots;
     }
 
     function add(spot) {
-      spots.push({
+      $spots.push({
         name: spot.name,
         url: buildUrl(spot)
       })
-      spots = spots;
+      $spots = $spots;
       _selectorOpened = false;
+      $page = $nbPages;
     }
 
     function buildUrl(spot) {
@@ -78,7 +75,7 @@
 <div class="modal modal-spots-list">
   <div class="modal-inner">
     <ul>
-      {#each spots as spot}
+      {#each $spots as spot}
       <li>
         {spot.name}
         <span class="actions">

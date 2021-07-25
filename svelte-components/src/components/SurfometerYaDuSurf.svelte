@@ -2,29 +2,18 @@
 
   import { onMount } from 'svelte';
   import Loader from './Loader.svelte';
-  import { createEventDispatcher } from 'svelte';
 
   export let name;
   export let url;
+  export let content;
   export let id;
 
-  let content = null;
   let canvas = null;
   let surfometer = null;
-  const dispatch = createEventDispatcher();
 
   // on mount, fetch the image
   onMount(async() => {
-    fetchImage();
   });
-
-  async function fetchImage() {
-    content = null;
-    const res = await fetch('/fetch?url='+encodeURI(url));
-    const html = await res.text();
-    content = html;
-    setTimeout(() => dispatch('loaded', id), 10);
-  }
 
   function drawTide() {
 
@@ -88,9 +77,9 @@
 
 <style global>
 
-  .surfometer { position:relative; width:50%;  margin-bottom:5px; flex: 1;}
+  .surfometer { position:relative; width:50%;  margin-bottom:5px; /* flex: 1; */}
   .spotname { color:white; position:absolute; width:100%; height:100%; padding: 10px; display: flex; justify-content:flex-end; align-items: center; z-index:10; pointer-events: none; }
-  .spotname span { font-family:helvetica; font-family: 'Ranchers', cursive; font-size:26px; color:rgba(255,255,255,0.75); text-shadow:2px 2px 5px rgba(0,0,0,0.8); letter-spacing:2px; }
+  .spotname span { font-family:helvetica; font-family: 'Ranchers', cursive; font-size:26px; color:rgba(255,255,255,1); text-shadow:2px 2px 5px rgba(0,0,0,0.8); letter-spacing:2px; }
   div.tide { position:absolute; left:0; top:50%; width:100%; z-index:10;}
   div.tide canvas{ width:100%; }
   .loader { position:absolute; top:40%; left:50%; }

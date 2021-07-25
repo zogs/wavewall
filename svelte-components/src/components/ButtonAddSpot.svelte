@@ -1,12 +1,10 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
   import Icon from 'svelte-awesome';
   import { plus } from 'svelte-awesome/icons';
-
-  const dispatch = createEventDispatcher();
+  import { modal } from '../stores/AppStore';
 
   function openList() {
-    dispatch('open-list', {});
+    $modal = 'spots_list';
   }
 </script>
 

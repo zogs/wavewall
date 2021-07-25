@@ -1,50 +1,74 @@
 <script>
-
-
-	import VisualModeButton from './components/VisualModeButton.svelte';
-	import SpotsListButton from './components/SpotsListButton.svelte';
+	import ButtonAddSpot from './components/ButtonAddSpot.svelte'
+	import ButtonNavPanel from './components/ButtonNavPanel.svelte'
 	import ModalSpotsList from './components/ModalSpotsList.svelte';
+	import ToolbarBottom from './components/ToolbarBottom.svelte';
   import Panel from './components/Panel.svelte';
+  import {spots, page, nbPages, nbPerPage, nbSpots, modal, visualMode} from './stores/AppStore';
 	import { onMount } from 'svelte';
+  import ButtonMenu from './components/ButtonMenu.svelte';
 
-	let visual_mode = 'color';
-	let modal = null;
-	let _spots = []
   let _init = false;
+
+  $: console.log($nbSpots, $page, $nbPages, $nbPerPage, $spots);
 
 	onMount(async () => {
 		// get spots from storage
-		_spots = JSON.parse(window.localStorage.getItem('spots'));
-    console.log(_spots)
+
+    let _spots = JSON.parse(window.localStorage.getItem('spots'));
+
 		if(!_spots) {
-      _spots = []
-			modal = 'spots_list';
-		}
+      $spots = []
+			$modal = 'spots_list';
+		} else {
+      // fetch all spots content
+      _spots = await fetchAllContents(_spots);
+      $spots = _spots;
+    }
+
+
+    if(window.localStorage.getItem('visualMode')) {
+        $visualMode = window.localStorage.getItem('visualMode');
+    }
 
     _init = true;
 	})
 
-	function openList() {
-		modal = 'spots_list';
-	}
-	function closeList() {
-		modal = null;
-		window.localStorage.setItem('spots', JSON.stringify(_spots));
+  async function fetchAllContents(_spots) {
+    if(_spots) {
+    console.log('fetchAllContents', spots);
+      await Promise.all(_spots.map(async spot => {
+          const res = await fetch('/fetch?url='+encodeURI(spot.url));
+          const content = await res.text();
+          spot.content = content;
+        }));
+      return _spots;
+    }
+  }
+
+	async function closeList() {
+		$modal = null;
+		window.localStorage.setItem('spots', JSON.stringify($spots));
+    $spots = await fetchAllContents($spots);
 	}
 
 </script>
 
 {#if _init}
-<main class:grayscale-mode={visual_mode == 'grayscale'}>
-	<Panel _spots={_spots} />
+<main class:grayscale-mode={$visualMode == 'grayscale'}>
+	<Panel />
 
-  <div class="toolbar">
-  	<SpotsListButton on:open-list={openList}></SpotsListButton>
-  	<VisualModeButton bind:mode={visual_mode}></VisualModeButton>
-  </div>
+  <ToolbarBottom>
+    {#if $nbPages === 1}
+  	<ButtonAddSpot></ButtonAddSpot>
+    {:else}
+    <ButtonNavPanel/>
+    {/if}
+  	<ButtonMenu></ButtonMenu>
+  </ToolbarBottom>
 
-  {#if modal == 'spots_list'}
-  <ModalSpotsList bind:spots={_spots} on:close={closeList}></ModalSpotsList>
+  {#if $modal == 'spots_list'}
+  <ModalSpotsList on:close={closeList}></ModalSpotsList>
   {/if}
 </main>
 {/if}

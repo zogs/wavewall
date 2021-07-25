@@ -1,12 +1,20 @@
 <script>
   import { onMount } from "svelte";
   import Surfometer from './SurfometerYaDuSurf.svelte';
+  import { spots, page, nbPages, nbPerPage, nbSpots } from '../stores/AppStore';
 
-  export let _spots;
-
+  let _init = false;
   let _days = [];
   let _surfometerHeight = 0;
+  let _spotsDisplayed = [];
 
+  $: {
+    handleResize($nbSpots, $page)
+  }
+
+  $: {
+    filterSpotsDisplayed($page, $spots);
+  }
 
   onMount(() => {
 
@@ -21,7 +29,9 @@
     _days = _days;
 
 
-    calcSurfometerHeightToScreen();
+    _init = true;
+    setTimeout(handleResize, 10);
+
   });
 
   function addDays(date, days) {
@@ -30,21 +40,21 @@
     return result;
   }
 
-  function calcSurfometerHeightToScreen() {
+  function fitHeight() {
     let totalHeight = window.innerHeight;
-    let nbSurfometer = _spots.length;
+    let nbSurfometer = $nbPerPage;
     let correctedHeight = totalHeight - document.getElementById('dates').offsetHeight - (nbSurfometer*10);
-    let individualHeight = correctedHeight / nbSurfometer;
-    _surfometerHeight = Math.floor(individualHeight);
-  }
-
-  function fitHeight(ev) {
-    document.querySelectorAll('.surfometer img').forEach(el => el.style.height = _surfometerHeight+'px');
+    let individualHeight = Math.floor(correctedHeight / nbSurfometer);
+    document.querySelectorAll('.surfometer img').forEach(el => el.style.height = individualHeight+'px');
   }
 
   function handleResize() {
-    calcSurfometerHeightToScreen();
-    fitHeight();
+    if(_init === false) return;
+    setTimeout(fitHeight, 10);
+  }
+
+  function filterSpotsDisplayed() {
+    _spotsDisplayed = $spots.slice(($page-1) * $nbPerPage, ($page * $nbPerPage));
   }
 
 </script>
@@ -57,9 +67,9 @@
     <div>{ label }</div>
     {/each}
   </header>
-  {#if _spots.length > 0}
-  {#each _spots as spot,i }
-			<Surfometer name={spot.name} id={'spot-'+i} url={spot.url} on:loaded={fitHeight}></Surfometer>
+  {#if $spots.length > 0}
+  {#each _spotsDisplayed as spot,i }
+			<Surfometer name={spot.name} id={'spot-'+i} url={spot.url} content={spot.content}></Surfometer>
 	{/each}
   {/if}
 </div>
