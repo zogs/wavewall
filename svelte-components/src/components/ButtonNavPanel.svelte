@@ -29,5 +29,5 @@
   span.number { font-size: 30px; font-weight:bold; }
   button.nav { opacity: 0.2; pointer-events: none; }
   button.nav.active { opacity: 1; pointer-events: all; }
-  :global(button.current-panel > button) { position:absolute; top:-20px; width:40px; height:40px; }
+  :global(button.current-panel > button) { position:absolute; transform: translate(0, -50%) scale(0.5); }
 </style>

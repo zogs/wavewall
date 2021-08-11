@@ -79,9 +79,8 @@
 
   .surfometer { position:relative; width:50%;  margin-bottom:5px; /* flex: 1; */}
   .spotname { color:white; position:absolute; width:100%; height:100%; padding: 10px; display: flex; justify-content:flex-end; align-items: center; z-index:10; pointer-events: none; }
-  .spotname span { font-family:helvetica; font-family: 'Ranchers', cursive; font-size:26px; color:rgba(255,255,255,1); text-shadow:2px 2px 5px rgba(0,0,0,0.8); letter-spacing:2px; }
-  div.tide { position:absolute; left:0; top:50%; width:100%; z-index:10;}
-  div.tide canvas{ width:100%; }
+  .spotname span { font-family:helvetica; font-family: 'Ranchers', cursive; font-size:36px; color:rgba(255,255,255,1); text-shadow:2px 2px 5px rgba(0,0,0,0.8); letter-spacing:2px; }
+
   .loader { position:absolute; top:40%; left:50%; }
   :global(.SurfometerV3) { display:flex; flex-direction:row; justify-content:stretch; align-items: stretch; }
   :global(.SurfDayV3) { flex:1; position:relative; }
