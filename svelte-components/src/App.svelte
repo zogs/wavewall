@@ -15,7 +15,10 @@
 	onMount(async () => {
 		// get spots from storage
 
-    let _spots = JSON.parse(window.localStorage.getItem('spots'));
+    //let _spots = JSON.parse(window.localStorage.getItem('spots'));
+    // temporary hardcoding spots list
+    let _spots = [{"name":"Les Blancs Sablons","url":"https://www.yadusurf.com/meteo-surf-report/Les-Blancs-Sablons/1183"},{"name":"Le Petit Minou","url":"https://www.yadusurf.com/meteo-surf-report/Le-Petit-Minou/1187"},{"name":"La Torche","url":"https://www.yadusurf.com/meteo-surf-report/La-Torche/1203"},{"name":"Penfoul","url":"https://www.yadusurf.com/meteo-surf-report/Penfoul/1181"},{"name":"Pourville-sur-Mer","url":"https://www.yadusurf.com/meteo-surf-report/Pourville-sur-Mer/1148"}]
+
 
 		if(!_spots) {
       $spots = []

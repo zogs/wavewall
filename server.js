@@ -5,6 +5,7 @@ const express = require('express')
 const app = express()
 const handlebars = require('express-handlebars')
 const cookieParser = require('cookie-parser')
+const puppeteer = require("puppeteer");
 
 const extractor = require('./extractor.js')
 
@@ -41,6 +42,34 @@ app.get('/spots', async(req, res) => {
   res.writeHead(200, {"Content-Type":"text/plain"});
   res.write(list);
   res.end();
+})
+
+app.get('/snap', async(req, res) => {
+
+  // open the browser and prepare a page
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  })
+  const page = await browser.newPage()
+
+  // set the size of the viewport, so our screenshot will have the desired size
+  await page.setViewport({
+      width: 1404,
+      height: 1872
+  })
+
+  await page.goto('http://localhost:1337', {"waitUntil" : "networkidle0"});
+  page.waitFor(3000);
+  await page.screenshot({
+      path: 'screenshot.png',
+      fullPage: true
+  })
+
+  // trigger the response
+  res.sendFile('screenshot.png', { root: '/var/www/zogs/surfwall'});
+
+  // close the browser
+  await browser.close();
 })
 
 app.listen(port, () => {

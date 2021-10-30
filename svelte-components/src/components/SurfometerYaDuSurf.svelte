@@ -4,7 +4,6 @@
   import Loader from './Loader.svelte';
 
   export let name;
-  export let url;
   export let content;
   export let id;
 
@@ -77,7 +76,7 @@
 
 <style global>
 
-  .surfometer { position:relative; width:50%;  margin-bottom:5px; /* flex: 1; */}
+  .surfometer { position:relative; width:100%;  margin-bottom:5px; /* flex: 1; */}
   .spotname { color:white; position:absolute; width:100%; height:100%; padding: 10px; display: flex; justify-content:flex-end; align-items: center; z-index:10; pointer-events: none; }
   .spotname span { font-family:helvetica; font-family: 'Ranchers', cursive; font-size:36px; color:rgba(255,255,255,1); text-shadow:2px 2px 5px rgba(0,0,0,0.8); letter-spacing:2px; }
 
@@ -88,7 +87,7 @@
   :global(.SurfDayV3 > div:first-child) { display:none; height:20px; font-size:11px; white-space:nowrap; text-align:center; line-height:25px; color:rgba(255,255,255,0.4); text-transform:uppercase; }
   :global(.SurfDayV3 > div:nth-child(2)) { position:absolute; bottom:15px; left:0; width:100%; z-index:1; font-size:12px; white-space:nowrap; text-align:center; display:flex; justify-content:center; align-items: center;}
   :global(.SurfDayV3 > div:nth-child(3)) { height:100%; }
-  :global(.SurfDayV3 > div:nth-child(3) .NoBottomBorderForImage) { width: 100%; }
+  :global(.SurfDayV3 > div:nth-child(3) .NoBottomBorderForImage) { width: 100%; height:100%; }
   :global(.SurfDayV3 > div:nth-child(3) .NoBottomBorderForImage img) { width: 100%; }
 
 
@@ -109,13 +108,4 @@
   :global(.sprite.sprite-etoiles-3-bis:before) { background:#3f0; }
   :global(.sprite.sprite-etoiles-3-bis:after) { background:#3f0; }
 
-  /* tablet mode */
-  @media screen and (max-width:800px) {
-    .surfometer { width:100%; }
-  }
-
-  /* decktop mode */
-  @media screen and (min-width:800px) {
-    :global(.NoBottomBorderForImage) { width: 100%; height: 100%; }
-  }
 </style>
