@@ -11,8 +11,6 @@
 
   let _init = false;
 
-  $: console.log($nbSpots, $page, $nbPages, $nbPerPage, $spots);
-
 	onMount(async () => {
 
 		// get spots from storage

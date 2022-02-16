@@ -12,41 +12,89 @@
 
   // on mount, fetch the image
   onMount(async() => {
+
+      drawTide();
   });
 
   function drawTide() {
 
-    var tides = surfometer.getElementsByClassName('SurfometerV3')[0].dataset.tides;
-    tides = JSON.parse(tides);
+    var data = surfometer.getElementsByClassName('SurfometerV3')[0].dataset.tides;
+    data = JSON.parse(data);
 
-    tides.map((t, i) => {
-      t.BM1 = getPercentFromBegining(t.BM1, i);
-      t.BM2 = getPercentFromBegining(t.BM2, i);
-      t.HM1 = getPercentFromBegining(t.HM1, i);
-      t.HM2 = getPercentFromBegining(t.HM2, i);
+    const tides = [];
+    data.map((t, i) => {
+      tides.push({
+        x: getPercentFromBegining(t.BM1, i),
+        y: parseInt(t.Coef),
+        m: 'BM',
+        c: t.Coef,
+      });
+      tides.push({
+        x: getPercentFromBegining(t.BM2, i),
+        y: parseInt(t.Coef2),
+        m: 'BM',
+        c: t.Coef2,
+      });
+      tides.push({
+        x: getPercentFromBegining(t.HM1, i),
+        y: -parseInt(t.Coef),
+        m: 'HM',
+        c: t.Coef,
+      });
+      tides.push({
+        x: getPercentFromBegining(t.HM2, i),
+        y: -parseInt(t.Coef2),
+        m: 'HM',
+        c: t.Coef2,
+      });
     })
-    console.log(tides);
 
-    let points = [];
-    tides.map(t => {
-      points.push({x: t.BM1, y: parseInt(t.Coef)})
-      points.push({x: t.HM1, y: -parseInt(t.Coef)})
-      points.push({x: t.BM2, y: parseInt(t.Coef)})
-      points.push({x: t.HM2, y: -parseInt(t.Coef)})
-    })
+    tides.sort((a,b) => a.x > b.x ? 1 : -1);
 
     var ctx = canvas.getContext("2d");
     var width = ctx.canvas.width;
     var height = ctx.canvas.height;
 
-    ctx.beginPath();
     ctx.lineWidth = 1;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '12px Arial';
     ctx.strokeStyle = "rgb(255,255,255)";
+    ctx.fillStyle = '#fff';  // a color name or by using rgb/rgba/hex values
 
-    points.filter(p => p.x != 0).map(p => {
-      let x = p.x * width / 100;
-      let y = 50 + p.y/2.4;
-      console.log(x,y);
+    console.log(tides);
+    const size = 5;
+
+    tides.map(t => {
+      let x = t.x * width / 100;
+      let y = 80;
+
+      let maree = t.m;
+      let dir = maree == 'HM' ? -1 : 1;
+
+      if(maree == 'HM') {
+        ctx.beginPath();
+        ctx.fillStyle = '#FFF';
+        ctx.moveTo(x, y);
+        ctx.lineTo(x-size, y-(size*dir))
+        ctx.lineTo(x+size, y-(size*dir))
+        ctx.fill();
+        ctx.closePath();
+
+        const coef = t.c;
+        ctx.fillText(coef, x, y - 10);
+      }
+
+      if(maree == 'BM') {
+        ctx.beginPath();
+        ctx.fillStyle = '#FFF';
+        ctx.moveTo(x, y+5);
+        ctx.lineTo(x-size, y-(size*dir)+5)
+        ctx.lineTo(x+size, y-(size*dir)+5)
+        ctx.fill();
+        ctx.closePath();
+      }
+      //console.log(x,y);
 
       ctx.lineTo(x,y);
     })
@@ -70,7 +118,7 @@
 <div class="surfometer" id={id} bind:this={surfometer}>
   {#if content == null }<div class="loader"><Loader></Loader></div>{/if}
   <div class="spotname"><span>{ name }</span></div>
-  <!-- <div class="tide"><canvas bind:this={canvas} width=1000 height=100></canvas></div>-->
+  <div class="tides"><canvas bind:this={canvas} width=1000 height=100></canvas></div>
   {@html content }
 </div>
 
@@ -79,6 +127,9 @@
   .surfometer { position:relative; width:100%;  margin-bottom:5px; /* flex: 1; */}
   .spotname { color:white; position:absolute; width:100%; height:100%; padding: 10px; display: flex; justify-content:flex-end; align-items: center; z-index:10; pointer-events: none; }
   .spotname span { font-family:helvetica; font-family: 'Ranchers', cursive; font-size:36px; color:rgba(255,255,255,1); text-shadow:2px 2px 5px rgba(0,0,0,0.8); letter-spacing:2px; }
+
+  .tides { position:absolute; bottom:0; width:100%; z-index:10;}
+  .tides canvas { width:100%; }
 
   .loader { position:absolute; top:40%; left:50%; }
   :global(.SurfometerV3) { display:flex; flex-direction:row; justify-content:stretch; align-items: stretch; }
