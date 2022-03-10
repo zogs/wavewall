@@ -24,24 +24,28 @@
     const tides = [];
     data.map((t, i) => {
       tides.push({
+        h: t.BM1,
         x: getPercentFromBegining(t.BM1, i),
         y: parseInt(t.Coef),
         m: 'BM',
         c: t.Coef,
       });
       tides.push({
+        h: t.BM2,
         x: getPercentFromBegining(t.BM2, i),
         y: parseInt(t.Coef2),
         m: 'BM',
         c: t.Coef2,
       });
       tides.push({
+        h: t.HM1,
         x: getPercentFromBegining(t.HM1, i),
         y: -parseInt(t.Coef),
         m: 'HM',
         c: t.Coef,
       });
       tides.push({
+        h: t.HM2,
         x: getPercentFromBegining(t.HM2, i),
         y: -parseInt(t.Coef2),
         m: 'HM',
@@ -58,12 +62,9 @@
     ctx.lineWidth = 1;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = '12px Arial';
+    ctx.font = '11px Arial';
     ctx.strokeStyle = "rgb(255,255,255)";
     ctx.fillStyle = '#fff';  // a color name or by using rgb/rgba/hex values
-
-    console.log(tides);
-    const size = 5;
 
     tides.map(t => {
       let x = t.x * width / 100;
@@ -73,16 +74,26 @@
       let dir = maree == 'HM' ? -1 : 1;
 
       if(maree == 'HM') {
+        const coef = parseFloat(t.c)+25;
+        let size = 3;
+        if(coef >= 60) size = 5;
+        if(coef >= 80) size = 8;
+        if(coef >= 100) size = 8;
+
         ctx.beginPath();
         ctx.fillStyle = '#FFF';
         ctx.moveTo(x, y);
         ctx.lineTo(x-size, y-(size*dir))
         ctx.lineTo(x+size, y-(size*dir))
-        ctx.fill();
+        ctx.lineTo(x,y)
+        ctx.stroke();
+        if(coef >= 100) ctx.fill();
         ctx.closePath();
 
-        const coef = t.c;
-        ctx.fillText(coef, x, y - 10);
+        const time = t.h.replace(' ','');
+        ctx.fillText(time, x, y - 10);
+
+        console.log(time, coef, size);
       }
 
       /*if(maree == 'BM') {
