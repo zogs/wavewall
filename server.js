@@ -26,6 +26,11 @@ app.get('/', (req, res) => {
   console.log(req.headers)
 })
 
+app.get('/datetime', (req, res) => {
+
+  res.render('datetime', { date: new Date().toLocaleDateString('fr'), time: new Date().toLocaleTimeString('fr') })
+})
+
 app.get('/fetch', async (req, res) => {
 
   let url = req.query.url;
