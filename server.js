@@ -2,6 +2,7 @@ var server = '127.0.0.1';
 var port = 1337;
 
 const express = require('express')
+const request = require('request')
 const app = express()
 const handlebars = require('express-handlebars')
 const cookieParser = require('cookie-parser')
@@ -26,9 +27,18 @@ app.get('/', (req, res) => {
   console.log(req.headers)
 })
 
-app.get('/datetime', (req, res) => {
+app.get('/showdatetime', (req, res) => {
+  res.render('datetime', { date: new Date().toLocaleDateString('fr-FR'), time: new Date().toLocaleTimeString('fr-FR') })
+})
 
-  res.render('datetime', { date: new Date().toLocaleDateString('fr'), time: new Date().toLocaleTimeString('fr') })
+app.get('/datetime', (req, res) => {
+  let url = 'http://genpdf.nebulab.dev/screenshot?url=http://zogs.org:1337/showdatetime&options='+encodeURIComponent(JSON.stringify({width:300, height:900}));
+  request({url: url, encoding: null, headers: {"X-APIKEY": "AWGBQBI-SPAUPCY-VVMDK6Y-OZUUZJI"}},  (err, resp, buffer) => {
+    if (!err && resp.statusCode === 200){
+      res.set("Content-Type", "image/jpeg");
+      res.send(resp.body);
+    }
+  });
 })
 
 app.get('/fetch', async (req, res) => {
