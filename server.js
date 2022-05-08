@@ -34,7 +34,10 @@ app.get('/screenshot', (req, res) => {
   let width = req.query.width || 300;
   let height = req.query.height || 900;
   let format = req.query.format || 'jpeg';
-  let url = GENDPF_ADDR+'/screenshot?format='+format+'&options='+encodeURIComponent(JSON.stringify({width:width, height:height}))+'&url='+SERVER_URL+'/';
+  let rotation = req.query.rotation || null;
+  let greyscale = req.query.greyscale || null;
+
+  let url = GENDPF_ADDR+'/screenshot?format='+format+'&options='+encodeURIComponent(JSON.stringify({width, height, greyscale, rotation}))+'&url='+SERVER_URL+'/';
   request({url: url, encoding: null, headers: {"X-APIKEY": GENDPF_APIKEY }},  (err, resp, buffer) => {
     if (!err && resp.statusCode === 200){
       res.set("Content-Type", resp.headers['content-type']);
