@@ -10,13 +10,31 @@
   import ButtonMenu from './components/ButtonMenu.svelte';
 
   let _init = false;
+  let _now = new Date();
 
 	onMount(async () => {
 
 		// get spots from storage
     let _spots = JSON.parse(window.localStorage.getItem('spots'));
+
     // temporary hardcoding spots list
-    //let _spots = [{"name":"Les Blancs Sablons","url":"https://www.yadusurf.com/meteo-surf-report/Les-Blancs-Sablons/1183"},{"name":"Le Petit Minou","url":"https://www.yadusurf.com/meteo-surf-report/Le-Petit-Minou/1187"},{"name":"La Torche","url":"https://www.yadusurf.com/meteo-surf-report/La-Torche/1203"},{"name":"Penfoul","url":"https://www.yadusurf.com/meteo-surf-report/Penfoul/1181"},{"name":"Pourville-sur-Mer","url":"https://www.yadusurf.com/meteo-surf-report/Pourville-sur-Mer/1148"}]
+    _spots = [{
+            "name": "Anse de Pen-Hat",
+            "url": "https://www.yadusurf.com/meteo-surf-report/Anse-de-Pen-Hat/1188",
+        },{
+            "name": "Baie des Trépassés",
+            "url": "https://www.yadusurf.com/meteo-surf-report/Baie-des-Trepasses/1197",
+        },{
+            "name": "Douarnenez ",
+            "url": "https://www.yadusurf.com/meteo-surf-report/Douarnenez/1195",
+        },{
+            "name": "Les Blancs Sablons",
+            "url": "https://www.yadusurf.com/meteo-surf-report/Les-Blancs-Sablons/1183",
+        },{
+            "name": "Penfoul",
+            "url": "https://www.yadusurf.com/meteo-surf-report/Penfoul/1181",
+        }
+    ];
 
 
 		if(!_spots) {
@@ -61,6 +79,7 @@
 	<Panel />
 
   <ToolbarBottom>
+    <div class="date">généré le:<br> { _now.toLocaleDateString('fr', { weekday: 'short', year: undefined, month: 'long', day: 'numeric' }) }<br>à { _now.toLocaleTimeString('fr', {hour: '2-digit', minute:'2-digit'}) }</div>
     {#if $nbPages === 1}
   	<ButtonAddSpot></ButtonAddSpot>
     {:else}
@@ -80,4 +99,5 @@
   :global(body) { height:100%;}
   main { height:100%; }
   article { width:100%; height:100%; display:flex; align-items: center; justify-content: center; }
+  div.date { position:absolute; left:12px; background:#000; color: white; padding: 10px 20px; border-radius:10px; font-size:12px; }
 </style>

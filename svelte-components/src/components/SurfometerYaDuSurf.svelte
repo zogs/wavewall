@@ -93,7 +93,7 @@
         const time = t.h.replace(' ','');
         ctx.fillText(time, x, y - 10);
 
-        console.log(time, coef, size);
+        //console.log(time, coef, size);
       }
 
       /*if(maree == 'BM') {
