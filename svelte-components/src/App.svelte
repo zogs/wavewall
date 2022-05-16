@@ -19,20 +19,20 @@
 
     // temporary hardcoding spots list
     _spots = [{
-            "name": "Anse de Pen-Hat",
-            "url": "https://www.yadusurf.com/meteo-surf-report/Anse-de-Pen-Hat/1188",
-        },{
-            "name": "Baie des Trépassés",
-            "url": "https://www.yadusurf.com/meteo-surf-report/Baie-des-Trepasses/1197",
-        },{
-            "name": "Douarnenez ",
-            "url": "https://www.yadusurf.com/meteo-surf-report/Douarnenez/1195",
-        },{
             "name": "Les Blancs Sablons",
             "url": "https://www.yadusurf.com/meteo-surf-report/Les-Blancs-Sablons/1183",
         },{
+            "name": "Anse de Pen-Hat",
+            "url": "https://www.yadusurf.com/meteo-surf-report/Anse-de-Pen-Hat/1188",
+        },{
             "name": "Penfoul",
             "url": "https://www.yadusurf.com/meteo-surf-report/Penfoul/1181",
+        },{
+            "name": "Hendaye",
+            "url": "https://www.yadusurf.com/Meteo-Surf-Report/Hendaye/1320",
+        },{
+          "name": "Parlementia",
+          "url": "https://www.yadusurf.com/Meteo-Surf-Report/Parlementia/1313",
         }
     ];
 
