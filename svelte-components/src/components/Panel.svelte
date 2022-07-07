@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
-  import Surfometer from './SurfometerYaDuSurf.svelte';
+  import SurfoWeek from './surf/SurfoWeek.svelte';
+  import SurfometerYaDuSurf from './surf/SurfometerYaDuSurf.svelte';
   import { spots, page, nbPages, nbPerPage, nbSpots } from '../stores/AppStore';
 
   let _init = false;
@@ -55,6 +56,7 @@
 
   function filterSpotsDisplayed() {
     _spotsDisplayed = $spots.slice(($page-1) * $nbPerPage, ($page * $nbPerPage));
+    console.log(_spotsDisplayed);
   }
 
 </script>
@@ -69,7 +71,11 @@
   </header>
   {#if $spots.length > 0}
   {#each _spotsDisplayed as spot,i }
-			<Surfometer name={spot.name} id={'spot-'+i} url={spot.url} content={spot.content}></Surfometer>
+    {#if spot.v2 === true }
+      <SurfoWeek name={spot.name} id={'spot-'+i} url={spot.url} content={spot.content}></SurfoWeek>
+    {:else}
+			<SurfometerYaDuSurf name={spot.name} id={'spot-'+i} url={spot.url} content={spot.content}></SurfometerYaDuSurf>
+    {/if}
 	{/each}
   {/if}
 </div>

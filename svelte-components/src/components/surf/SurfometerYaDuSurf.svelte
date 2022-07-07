@@ -1,7 +1,7 @@
 <script>
 
   import { onMount } from 'svelte';
-  import Loader from './Loader.svelte';
+  import Loader from '../Loader.svelte';
 
   export let name;
   export let content;
