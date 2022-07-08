@@ -4,6 +4,7 @@
   import * as createjs from 'createjs-module';
   import loadImage from 'image-promise';
   import { debounce } from 'throttle-debounce';
+  import {scaleLinear} from 'd3-scale';
 
   let data;
   let stage;
@@ -46,7 +47,10 @@
     //curve.graphics.setStrokeStyle(1).beginStroke('#FF0000');
 
     const middle = height / 2;
-    const amplitude = height / 2.5;
+    const maxCoef = 120;
+    const minCoef = 30;
+    const maxAmplitude = height / 2;
+    const minAmplitude = height / 6;
     const points = [];
 
     const m0 = convertHourstoMinutes(data.hours[0]);
@@ -59,9 +63,10 @@
       const hour = data.hours[i];
       const m = convertHourstoMinutes(hour);
       const x = convertMinutesToX(m);
+      const c = data.coef[i];
+      const amplitude = scaleLinear().domain([minCoef,maxCoef]).range([minAmplitude,maxAmplitude])(c)
       const dy = data.tide[i] === 'PM' ? -1 : 1;
       const y =  middle + (amplitude * dy);
-      const c = data.coef[i];
       const t = data.tide[i];
       points.push({x, y, c, t});
     }
@@ -73,7 +78,7 @@
 
 
     const curve = new createjs.Shape();
-    const curveFillCommand = curve.graphics.beginFill(color).command;
+    curve.graphics.beginFill(color);
     curve.graphics.setStrokeStyle(1).beginStroke('#000');
     curve.graphics.moveTo(x0, y0);
     for(let i=1; i < points.length-1; i++) {
@@ -88,36 +93,27 @@
     }
 
     curve.graphics.lineTo(xZ, yZ);
+    curve.graphics.lineTo(xZ, height);
+    curve.graphics.lineTo(0, height);
+    curve.graphics.lineTo(0, y0);
 
-    const topMask = new createjs.Shape();
-    topMask.graphics.rect(0,0,width,middle);
-    const topCurve = curve.clone();
-    topCurve.mask = topMask;
-    topCurve.cache(0,0,width,height);
-
-    curveFillCommand.style = '#FFF';
-    const bottomMask = new createjs.Shape();
-    bottomMask.graphics.rect(0, middle, width, height);
-    const bottomCurve = curve.clone();
-    bottomCurve.mask = bottomMask;
-
-    const blackRect = new createjs.Shape();
-    blackRect.graphics.beginFill(color).rect(0, middle, width, middle);
+    const stripes = new createjs.Container();
+    const stripeHeight = height / 10;
+    for(let i = 0; i <= 10; i++) {
+      const strip = new createjs.Shape();
+      const color = i % 2 ? '#FFF' : '#CCC';
+      strip.graphics.beginFill(color).rect(0,0, width, height);
+      strip.y = stripeHeight * i;
+      stripes.addChild(strip);
+    }
 
     const blackLine = new createjs.Shape();
-    blackLine.graphics.setStrokeStyle(0.5).beginStroke('#777');
-    blackLine.graphics.moveTo(0, middle).lineTo(width, middle);
+    blackLine.graphics.setStrokeStyle(1).beginStroke('#000');
+    blackLine.graphics.lineTo(0, height/2).lineTo(width, height/2);
 
-    const whiteLine = new createjs.Shape();
-    whiteLine.graphics.setStrokeStyle(0.5).beginStroke('rgba(255,255,255,0.5)');
-    whiteLine.graphics.moveTo(0, middle).lineTo(width, middle);
-
-    stage.addChild(blackRect);
-    stage.addChild(blackLine);
-    stage.addChild(whiteLine);
-    stage.addChild(topCurve);
-    stage.addChild(bottomCurve);
-
+    stage.addChild(stripes);
+    //stage.addChild(blackLine);
+    stage.addChild(curve);
 
 
     for(let i=1; i < points.length-1; i++) {
@@ -126,7 +122,6 @@
       const coef = p.c;
       const tide = p.t;
       const textColor = tide === 'PM' ? '#FFF' : '#000';
-      const y = tide === 'PM' ? middle - amplitude + 4 : middle + 3;
       const font = tide === 'PM' ? '10px arial' : '9px arial';
       const label = new createjs.Text(coef, font, textColor);
       label.x = x - label.getBounds().width / 2;

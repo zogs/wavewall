@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Pacifico';
+  src: url('../font/Pacifico/Pacifico.ttf') format('truetype');
+}
+
+
 * { box-sizing: border-box; }
 body { background:#1c2d42; color:#1c2d42; margin:0;  font-family: 'RocknRoll One', sans-serif; }
 

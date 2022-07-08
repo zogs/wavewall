@@ -24,13 +24,13 @@
             "url": "https://www.yadusurf.com/meteo-surf-report/Les-Blancs-Sablons/1183",
         },
         {
+            "name": "Pen-Hat",
+            "url": "https://www.yadusurf.com/meteo-surf-report/Anse-de-Pen-Hat/1188",
+        },
+        {
           "name": "Parlementia",
           "url": "https://www.yadusurf.com/Meteo-Surf-Report/Parlementia/1313",
           "v2" : true
-        },
-        {
-            "name": "Pen-Hat",
-            "url": "https://www.yadusurf.com/meteo-surf-report/Anse-de-Pen-Hat/1188",
         },
         {
             "name": "Le Petit Minou",

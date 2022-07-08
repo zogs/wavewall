@@ -136,7 +136,7 @@
 
   .surfometer { position:relative; width:100%;  margin-bottom:5px; /* flex: 1; */}
   .spotname { color:white; position:absolute; width:100%; height:100%; padding: 10px; display: flex; justify-content:flex-end; align-items: center; z-index:10; pointer-events: none; }
-  .spotname span { font-family:helvetica; font-family: 'Ranchers', cursive; font-size:36px; color:rgba(255,255,255,1); text-shadow:2px 2px 5px rgba(0,0,0,0.8); letter-spacing:2px; }
+  .spotname span { font-family:helvetica; font-family: 'Pacifico', cursive; font-size:36px; color:rgba(255,255,255,1); text-shadow:2px 2px 5px rgba(0,0,0,0.8); letter-spacing:2px; }
 
   .tides { position:absolute; bottom:0; width:100%; z-index:10;}
   .tides canvas { width:100%; }

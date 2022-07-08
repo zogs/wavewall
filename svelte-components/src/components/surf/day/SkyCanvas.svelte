@@ -33,8 +33,6 @@
     cloudCovers = data.cover;
     rainAmounts = data.rain;
 
-    console.log(data);
-
   });
 
   function resize() {
@@ -74,7 +72,7 @@
     stage.removeAllChildren();
 
     const sun = bitmapSun.clone();
-    sun.scaleX = sun.scaleY = 0.6;
+    sun.scaleX = sun.scaleY = 0.7;
     sun.x = width/2;
     sun.y = 50
     stage.addChild(sun);

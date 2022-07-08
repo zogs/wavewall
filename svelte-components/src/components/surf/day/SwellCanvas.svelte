@@ -107,7 +107,7 @@
 
 
     const swellLine = new createjs.Shape();
-    swellLine.graphics.setStrokeStyle(3);
+    swellLine.graphics.setStrokeStyle(4);
     swellLine.graphics.beginStroke("rgb(0,0,0)");
 
     swellLine.graphics.moveTo((points[0].x), points[0].y);
@@ -141,13 +141,13 @@
       line.y = y;
       stage.addChild(line);
     }
-    const digit = new createjs.Text(maxSwell.toFixed(1)+'m', 'bold 16px arial', 'rgba(255,255,255,1)')
+    const digit = new createjs.Text(maxSwell.toFixed(1)+'m', 'bold 16px monospace', 'rgba(255,255,255,1)')
     const bounds = digit.getBounds();
-    digit.x = width
+    digit.x = width - 2;
     digit.y = swellToY(maxSwell) - 9
     digit.textAlign = 'right'
 
-    const outline = new createjs.Text(maxSwell.toFixed(1)+'m', 'bold 16px arial', 'rgba(0,0,0,1)')
+    const outline = new createjs.Text(maxSwell.toFixed(1)+'m', 'bold 16px monospace', 'rgba(0,0,0,1)')
     outline.x = digit.x ;
     outline.y = digit.y ;
     outline.outline = 3;
@@ -177,7 +177,7 @@
     arrow.regX = arrow.getBounds().width / 2
     arrow.regY = arrow.getBounds().height / 3
     arrow.scaleX = arrow.scaleY = 1.25;
-    let arrow_y = swellToY(swell0()) + 3
+    let arrow_y = swellToY(swell0()) - 10
     if(arrow_y > height - arrow.getBounds().height/2) arrow_y = height - arrow.getBounds().height/2
     let arrow_x = 24;
     if(direction0() >= 180) arrow_x = 14;
@@ -241,7 +241,7 @@
       const w = scaleLinear().domain([0,20]).range([5,arrowMaxBase])(period)
       const h = scaleLinear().domain([0,20]).range([0,arrowMaxLength])(period)
       const a = new createjs.Shape()
-      a.graphics.beginStroke('rgba(0,0,0,1)')
+      a.graphics.beginStroke('rgba(0,0,0,0.4)').beginFill('rgba(255,255,255,0.8')
        .moveTo(0,0)
        .lineTo(w/2, -h)
        .lineTo(0, -h*4/5)
@@ -265,7 +265,7 @@
           const obj = arrow.clone();
           obj.x = i * (size) + size/2;
           obj.y = j * (size) + ydiv;
-          obj.alpha = 0.4;
+          obj.alpha = 1;
           container.addChild(obj);
           break;
         }
