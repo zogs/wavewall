@@ -88,11 +88,13 @@
     swellWhiteBackground.graphics.endStroke();
 
     const swellWaterPattern = new createjs.Shape();
-    const patternImage0 = new createjs.Bitmap(patternImage);
+    const bitmapPattern = new createjs.Bitmap(patternImage);
+    bitmapPattern.regX = patternImage.width/2;
+    bitmapPattern.regY = patternImage.height/2;
     const dw = Math.random()*50
     const dh = Math.random()*50
-    patternImage0.cache(dw, dh, patternImage.width, patternImage.height);
-    const pattern = ctx.createPattern(patternImage0.cacheCanvas, 'repeat')
+    bitmapPattern.cache(dw, dh, width, height);
+    const pattern = ctx.createPattern(bitmapPattern.cacheCanvas, 'repeat')
     swellWaterPattern.graphics.beginFill(pattern);
     swellWaterPattern.graphics.moveTo((points[0].x), points[0].y);
     for(var i = 0; i < points.length-1; i ++)
@@ -180,8 +182,8 @@
     */
     const arrow = new createjs.Bitmap(swellArrowImg)
     arrow.regX = arrow.getBounds().width / 2
-    arrow.regY = arrow.getBounds().height / 3
-    arrow.scaleX = arrow.scaleY = 1.25;
+    arrow.regY = arrow.getBounds().height / 2
+    arrow.scaleX = arrow.scaleY = 0.7
     let arrow_y = swellToY(swell0()) - 10
     if(arrow_y > height - arrow.getBounds().height/2) arrow_y = height - arrow.getBounds().height/2
     let arrow_x = 24;
@@ -212,27 +214,27 @@
      * Hours
     */
     let total = 24
-    let hours = [4,8,12,16,20]
+    let hours = [6,12,18]
     let div = width / 24
     const cadre = new createjs.Shape();
-    cadre.graphics.beginFill('#777').rect(0,0, width, 8);
-    cadre.y = height - 8;
+    cadre.graphics.beginFill('#333').rect(0,0, width, 10);
+    cadre.y = height - 10;
     stage.addChild(cadre);
     for (let i = 1; i < total; i++) {
       if(false == hours.some(h => h == i)) continue;
       const x = div * i
       const y = cadre.y;
-      const w = 3;
+      const w = 5;
       const tick = new createjs.Shape();
-      tick.graphics.setStrokeStyle(2).beginStroke('#777').beginFill('#777')
+      tick.graphics.setStrokeStyle(1).beginStroke('#333').beginFill('#333')
                     .moveTo(-w/2,0).lineTo(0, -w/2).lineTo(w/2, 0);
       tick.x = x
       tick.y = y
       stage.addChild(tick)
-      const digit = new createjs.Text(i, '11px helvetica', '#FFF')
+      const digit = new createjs.Text(i+'h', '12px helvetica', '#FFF')
       digit.x = x
-      digit.y = cadre.y + 3;
-      digit.scaleY = 0.5
+      digit.y = cadre.y + 2;
+      digit.scaleY = 0.6
       digit.textAlign = 'center'
       stage.addChild(digit)
     }
