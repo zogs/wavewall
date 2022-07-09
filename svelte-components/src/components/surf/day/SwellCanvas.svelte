@@ -36,7 +36,7 @@
     const nbdata = 3;
     for(let i=1; i <= nbdata; i++) {
       data.push({
-        height: Math.random()*3,
+        height: 0.5 + Math.random()*3,
         period: Math.ceil(7 + Math.random()* 7),
         direction: Math.random()*360, // TODO: change to radians
       });
@@ -88,7 +88,11 @@
     swellWhiteBackground.graphics.endStroke();
 
     const swellWaterPattern = new createjs.Shape();
-    const pattern = ctx.createPattern(patternImage, 'repeat')
+    const patternImage0 = new createjs.Bitmap(patternImage);
+    const dw = Math.random()*50
+    const dh = Math.random()*50
+    patternImage0.cache(dw, dh, patternImage.width, patternImage.height);
+    const pattern = ctx.createPattern(patternImage0.cacheCanvas, 'repeat')
     swellWaterPattern.graphics.beginFill(pattern);
     swellWaterPattern.graphics.moveTo((points[0].x), points[0].y);
     for(var i = 0; i < points.length-1; i ++)
@@ -104,6 +108,7 @@
     swellWaterPattern.graphics.lineTo(width, height);
     swellWaterPattern.graphics.lineTo(0, height);
     swellWaterPattern.graphics.endStroke();
+    swellWaterPattern.alpha = 0.5;
 
 
     const swellLine = new createjs.Shape();
@@ -209,19 +214,24 @@
     let total = 24
     let hours = [4,8,12,16,20]
     let div = width / 24
+    const cadre = new createjs.Shape();
+    cadre.graphics.beginFill('#777').rect(0,0, width, 8);
+    cadre.y = height - 8;
+    stage.addChild(cadre);
     for (let i = 1; i < total; i++) {
       if(false == hours.some(h => h == i)) continue;
-      const h = 3
       const x = div * i
-      const y = height + h/2
-      const line = new createjs.Shape();
-      line.graphics.setStrokeStyle(3).beginStroke('#000').moveTo(0,0).lineTo(0,-h);
-      line.x = x
-      line.y = y
-      stage.addChild(line)
-      const digit = new createjs.Text(i, '12px arial', '#000')
+      const y = cadre.y;
+      const w = 3;
+      const tick = new createjs.Shape();
+      tick.graphics.setStrokeStyle(2).beginStroke('#777').beginFill('#777')
+                    .moveTo(-w/2,0).lineTo(0, -w/2).lineTo(w/2, 0);
+      tick.x = x
+      tick.y = y
+      stage.addChild(tick)
+      const digit = new createjs.Text(i, '11px helvetica', '#FFF')
       digit.x = x
-      digit.y = y - 12
+      digit.y = cadre.y + 3;
       digit.scaleY = 0.5
       digit.textAlign = 'center'
       stage.addChild(digit)

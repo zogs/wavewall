@@ -53,6 +53,7 @@
   .swell { position:absolute; top:0; left:0; right:0; bottom:0; }
   .sky { position:absolute; top:0; left:0; right:0; bottom:0; }
   .temps { position:absolute; top: 0; left: 5px; display:flex; flex-direction: column; }
-  .temps .min { display:block; margin:2px 0; font-size:11px; padding:2px; border-radius: 100%; background:#e7e7e7; border:1px solid #000; }
-  .temps .max { display:block; margin:2px 0; font-size:10px; padding:2px; border-radius: 100%; background:#fff; border:1px solid #000; }
+  .temps .min { display: flex; justify-content: center; align-items: center; padding:2px; margin:2px 0; font-size:11px; border-radius: 100%; background:#e7e7e7; border:1px solid #000; aspect-ratio: 1 / 1; }
+  .temps .max { display: flex; justify-content: center; align-items: center; padding:2px; margin:2px 0; font-size:10px; border-radius: 100%; background:#fff; border:1px solid #000; aspect-ratio: 1 / 1; }
+
 </style>

@@ -28,5 +28,5 @@
   img.force-3 { filter: hue-rotate(26deg) saturate(200%) grayscale(100%) }
   img.force-4 { filter: hue-rotate(55deg) saturate(300%) grayscale(100%) }
   img.force-5 { filter: hue-rotate(200deg) saturate(500%) grayscale(100%) }
-  span { position:absolute; font-size:10px; top:2px; left:50%; transform: translateX(-50%); }
+  span { position:absolute; font-size:10px; }
 </style>
