@@ -103,7 +103,6 @@
 <style>
   :global(html) { height:100%;}
   :global(body) { height:100%;}
-  main { height:100%; max-width:1200px; margin:0 auto; }
-  article { width:100%; height:100%; display:flex; align-items: center; justify-content: center; }
+  main { height:100%; max-width:1400px; margin:0 auto; }
   div.date { position:absolute; left:12px; background:#000; color: white; padding: 10px 20px; border-radius:10px; font-size:12px; }
 </style>
