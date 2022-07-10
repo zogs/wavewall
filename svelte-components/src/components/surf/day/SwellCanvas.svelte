@@ -92,7 +92,7 @@
     bitmapPattern.regX = patternImage.width/2;
     bitmapPattern.regY = patternImage.height/2;
     const dw = Math.random()*50
-    const dh = Math.random()*50
+    const dh = Math.random()*20
     bitmapPattern.cache(dw, dh, width, height);
     const pattern = ctx.createPattern(bitmapPattern.cacheCanvas, 'repeat')
     swellWaterPattern.graphics.beginFill(pattern);
@@ -202,7 +202,8 @@
       shade.y = arrow.y - i;
       //stage.addChild(shade);
     }
-    const digit2 = new createjs.Text(period0()+'s', 'bold 12px cursive', 'rgba(0,0,0,1)')
+    const digit2 = new createjs.Text(period0()+'s', 'bold 12px cursive', '#666')
+
     digit2.textAlign = 'center'
     digit2.x = arrow.x
     digit2.y = arrow.y - 4
@@ -224,7 +225,7 @@
       if(false == hours.some(h => h == i)) continue;
       const x = div * i
       const y = cadre.y;
-      const w = 5;
+      const w = 8;
       const tick = new createjs.Shape();
       tick.graphics.setStrokeStyle(1).beginStroke('#333').beginFill('#333')
                     .moveTo(-w/2,0).lineTo(0, -w/2).lineTo(w/2, 0);

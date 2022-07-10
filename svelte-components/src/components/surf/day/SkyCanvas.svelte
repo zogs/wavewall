@@ -212,5 +212,5 @@
 <canvas bind:this={canvas} {width} {height}></canvas>
 
 <style>
-  canvas { width:100%; height:100%; background: linear-gradient(180deg, #b1b1b1 0%, #f3f3f3 50%); }
+  canvas { width:100%; height:100%; background: linear-gradient(180deg, #b1b1b1 0%, #f3f3f3 80%); }
 </style>

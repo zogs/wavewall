@@ -46,6 +46,24 @@
 
     //curve.graphics.setStrokeStyle(1).beginStroke('#FF0000');
 
+    /* Ticks */
+    const ticks = new createjs.Container();
+    let total = 24
+    let hours = [6,12,18]
+    let div = width / 24
+    for (let i = 1; i < total; i++) {
+      if(false == hours.some(h => h == i)) continue;
+      const w = 10;
+      const x = div * i
+      const y = 0;
+      const tick = new createjs.Shape();
+      tick.graphics.setStrokeStyle(1).beginStroke('#fff').beginFill('#fff').moveTo(-w/2,0).lineTo(0, -w/2).lineTo(w/2, 0);
+      tick.x = x
+      tick.y = y
+      tick.scaleY = -1;
+      ticks.addChild(tick)
+    }
+
     const middle = height / 2;
     const maxCoef = 120;
     const minCoef = 30;
@@ -112,6 +130,7 @@
     blackLine.graphics.lineTo(0, height/2).lineTo(width, height/2);
 
     stage.addChild(stripes);
+    stage.addChild(ticks);
     //stage.addChild(blackLine);
     stage.addChild(curve);
 

@@ -46,9 +46,9 @@
 <style>
   .day { width:100%; height:100%; display:flex; flex-direction:column; border:1px solid grey; background:#fff; }
 
-  .wind { height: 12%; border:1px solid #ddd; display:flex; justify-content: space-around; align-items: center; background-color: #f5f5f5; border-bottom:1px solid #aaa; }
-  .scene { height: 73%; border:1px solid #ddd; position:relative; }
-  .tides { height: 15%; border:1px solid #ddd; }
+  .wind { height: 12%; display:flex; justify-content: space-around; align-items: center; background-color: #f5f5f5; border-bottom:1px solid #aaa; }
+  .scene { height: 73%; position:relative; }
+  .tides { height: 15%; }
 
   .swell { position:absolute; top:0; left:0; right:0; bottom:0; }
   .sky { position:absolute; top:0; left:0; right:0; bottom:0; }
